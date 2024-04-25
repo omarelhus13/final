@@ -1,0 +1,43 @@
+---
+title: "FinalProject"
+author: "Omar Elhussein"
+date: "2024-04-24"
+output:
+  word_document: default
+  html_document: default
+---
+
+## Libraries
+```{r}
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+```
+
+## DataSet
+```{r}
+HealthData <- X211project <- read_excel("C:/Users/User/Desktop/DATA211/211project.xlsx")
+```
+
+## Do I maintain healthy amount sleep
+```{r}
+graph <- ggplot(data = HealthData ,aes( y=SleepHours )) + geom_boxplot()
+ggplotly(graph)
+
+```
+## Hypothesis Analysis
+$H_0: \mu_0 = 7$  vs $H_a: \mu_a > 7$ 
+```{r}
+filtered <-HealthData %>%    # remove outliers
+  select(SleepHours) %>%
+  filter(SleepHours > 3.5) 
+
+t.test(x=filtered$SleepHours,mu=7, alternative = "greater")
+
+```
+P-Value < 5% so we reject $H_0$
+At 5% s.l we have sufficient evidence to conclude that average of my sleeping hours are more than 7 hours per day
+
+
+
